@@ -1,8 +1,15 @@
 <?php
-header('Content-Type: application/json');
+function wantsJsonResponse(): bool
+{
+    $acceptHeader = strtolower($_SERVER['HTTP_ACCEPT'] ?? '');
+    $requestedWith = strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '');
+
+    return strpos($acceptHeader, 'application/json') !== false || $requestedWith === 'xmlhttprequest';
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
+    header('Content-Type: application/json; charset=UTF-8');
     echo json_encode([
         'success' => false,
         'message' => 'Method not allowed.'
@@ -15,6 +22,20 @@ $email = trim($_POST['email'] ?? '');
 $service = trim($_POST['service'] ?? '');
 $message = trim($_POST['message'] ?? '');
 $timestamp = date('Y-m-d H:i:s');
+
+if ($name === '' || $email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(400);
+    if (wantsJsonResponse()) {
+        header('Content-Type: application/json; charset=UTF-8');
+        echo json_encode([
+            'success' => false,
+            'message' => 'Please provide your name and a valid email address.'
+        ]);
+    } else {
+        header('Location: index.html?form=invalid');
+    }
+    exit;
+}
 
 $entry = [
     'timestamp' => $timestamp,
@@ -41,16 +62,28 @@ $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 $mailSent = @mail($to, $subject, $body, $headers);
 
 if ($written === false) {
-    echo json_encode([
-        'success' => false,
-        'message' => 'Your request could not be saved. Please try again.'
-    ]);
+    if (wantsJsonResponse()) {
+        header('Content-Type: application/json; charset=UTF-8');
+        echo json_encode([
+            'success' => false,
+            'message' => 'Your request could not be saved. Please try again.'
+        ]);
+    } else {
+        header('Location: index.html?form=failed');
+    }
     exit;
 }
 
-echo json_encode([
+$response = [
     'success' => true,
     'message' => "Thanks, {$name}! Your quote request has been received.",
     'savedTo' => 'quote-submissions.log',
     'mailSent' => $mailSent
-]);
+];
+
+if (wantsJsonResponse()) {
+    header('Content-Type: application/json; charset=UTF-8');
+    echo json_encode($response);
+} else {
+    header('Location: thank-you.html');
+}

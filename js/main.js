@@ -60,56 +60,32 @@ revealTargets.forEach((el) => observer.observe(el));
 const contactForm = document.getElementById("contactForm");
 const formNote = document.getElementById("formNote");
 
-contactForm.addEventListener("submit", async (e) => {
-  const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-  const name = contactForm.name.value.trim();
-  const email = contactForm.email.value.trim();
+if (contactForm) {
+  contactForm.addEventListener("submit", (e) => {
+    const name = contactForm.name.value.trim();
+    const email = contactForm.email.value.trim();
 
-  if (!name || !email) {
-    e.preventDefault();
-    formNote.style.color = "#f87171";
-    formNote.textContent = "Please fill in your name and email.";
-    return;
-  }
-
-  if (!isLocal) {
-    formNote.style.color = "";
-    formNote.textContent = "Sending your request...";
-    return;
-  }
-
-  e.preventDefault();
-  formNote.style.color = "";
-  formNote.textContent = "Sending your request...";
-
-  try {
-    const formData = new FormData(contactForm);
-    const response = await fetch("submit-quote.php", {
-      method: "POST",
-      body: formData
-    });
-    const data = await response.json();
-
-    if (!response.ok || !data.success) {
-      throw new Error(data.message || "Unable to send your request.");
+    if (!name || !email) {
+      e.preventDefault();
+      formNote.style.color = "#f87171";
+      formNote.textContent = "Please fill in your name and email.";
+      return;
     }
 
     formNote.style.color = "";
-    formNote.textContent = data.message;
-    contactForm.reset();
-  } catch (error) {
-    formNote.style.color = "#f87171";
-    formNote.textContent = error.message || "Unable to send your request. Please try again.";
-  }
-});
+    formNote.textContent = "Sending your request...";
+  });
+}
 
 // Newsletter form (front-end only demo)
 const newsForm = document.getElementById("newsForm");
-newsForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  newsForm.reset();
-  alert("Thanks for subscribing to the MWeb newsletter!");
-});
+if (newsForm) {
+  newsForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    newsForm.reset();
+    alert("Thanks for subscribing to the MWeb newsletter!");
+  });
+}
 
 // Current year in footer
 document.getElementById("year").textContent = new Date().getFullYear();
