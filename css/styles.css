@@ -167,10 +167,10 @@ body.dark .site-header {
 .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--text); margin: 5px 0; transition: 0.25s; }
 
 /* Hero */
-.hero { padding: 90px 0 70px; overflow: hidden; }
+.hero { padding: 80px 0 70px; overflow: hidden; }
 .hero-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: center; }
 .hero-trust {
-  display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0 0 1.5rem;
+  display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0 0 1.25rem;
 }
 .hero-trust span {
   display: inline-flex; align-items: center; gap: 0.35rem;
@@ -180,12 +180,12 @@ body.dark .site-header {
 }
 .eyebrow {
   text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.78rem;
-  color: var(--primary-2); font-weight: 600; margin: 0 0 1rem;
+  color: var(--primary-2); font-weight: 600; margin: 0 0 0.8rem;
 }
-.hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; }
+.hero h1 { font-size: clamp(1.95rem, 4.2vw, 3.1rem); font-weight: 700; line-height: 1.15; }
 .hero h1 span { background: linear-gradient(120deg, var(--primary-2), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.lead { color: var(--muted); font-size: 1.1rem; max-width: 46ch; }
-.hero-actions { display: flex; gap: 1rem; margin: 1.75rem 0 2.25rem; flex-wrap: wrap; }
+.lead { color: var(--muted); font-size: 1rem; max-width: 46ch; }
+.hero-actions { display: flex; gap: 1rem; margin: 1.5rem 0 1.9rem; flex-wrap: wrap; }
 .hero-stats { list-style: none; display: flex; gap: 2.5rem; padding: 0; margin: 0; }
 .hero-stats li { display: flex; flex-direction: column; }
 .hero-stats strong { font-family: "Poppins", sans-serif; font-size: 1.8rem; color: var(--text); }
