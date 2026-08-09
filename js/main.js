@@ -18,24 +18,28 @@ if (themeToggle) {
   });
 }
 
-navToggle.addEventListener("click", () => {
-  const open = mainNav.classList.toggle("open");
-  navToggle.setAttribute("aria-expanded", String(open));
-});
-
-// Close mobile nav when a link is clicked
-mainNav.querySelectorAll("a").forEach((link) => {
-  link.addEventListener("click", () => {
-    mainNav.classList.remove("open");
-    navToggle.setAttribute("aria-expanded", "false");
+if (navToggle && mainNav) {
+  navToggle.addEventListener("click", () => {
+    const open = mainNav.classList.toggle("open");
+    navToggle.setAttribute("aria-expanded", String(open));
   });
-});
+
+  // Close mobile nav when a link is clicked
+  mainNav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      mainNav.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+}
 
 // Back-to-top button
 const toTop = document.getElementById("toTop");
-window.addEventListener("scroll", () => {
-  toTop.classList.toggle("show", window.scrollY > 500);
-});
+if (toTop) {
+  window.addEventListener("scroll", () => {
+    toTop.classList.toggle("show", window.scrollY > 500);
+  });
+}
 
 // Reveal-on-scroll animations
 const revealTargets = document.querySelectorAll(
@@ -67,13 +71,17 @@ if (contactForm) {
 
     if (!name || !email) {
       e.preventDefault();
-      formNote.style.color = "#f87171";
-      formNote.textContent = "Please fill in your name and email.";
+      if (formNote) {
+        formNote.style.color = "#f87171";
+        formNote.textContent = "Please fill in your name and email.";
+      }
       return;
     }
 
-    formNote.style.color = "";
-    formNote.textContent = "Sending your request...";
+    if (formNote) {
+      formNote.style.color = "";
+      formNote.textContent = "Sending your request...";
+    }
   });
 }
 
@@ -88,4 +96,7 @@ if (newsForm) {
 }
 
 // Current year in footer
-document.getElementById("year").textContent = new Date().getFullYear();
+const yearEl = document.getElementById("year");
+if (yearEl) {
+  yearEl.textContent = new Date().getFullYear();
+}
