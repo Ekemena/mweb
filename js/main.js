@@ -66,14 +66,11 @@ const formNote = document.getElementById("formNote");
 
 if (contactForm) {
   contactForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-
     const name = contactForm.name.value.trim();
     const email = contactForm.email.value.trim();
-    const service = contactForm.service.value.trim();
-    const message = contactForm.message.value.trim();
 
     if (!name || !email) {
+      e.preventDefault();
       if (formNote) {
         formNote.style.color = "#f87171";
         formNote.textContent = "Please fill in your name and email.";
@@ -83,19 +80,8 @@ if (contactForm) {
 
     if (formNote) {
       formNote.style.color = "";
-      formNote.textContent = "Opening your email app...";
+      formNote.textContent = "Sending your request...";
     }
-
-    const subject = encodeURIComponent(`New quote request from ${name}`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nService: ${service}\n\nMessage:\n${message}`
-    );
-    const mailtoLink = `mailto:mwebdevelopment85@gmail.com?subject=${subject}&body=${body}`;
-
-    window.location.href = mailtoLink;
-    window.setTimeout(() => {
-      window.location.href = "thank-you.html";
-    }, 1200);
   });
 }
 
